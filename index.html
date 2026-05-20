@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Account Setup · Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1814;
+  --ink-2: #4a4740;
+  --ink-3: #8a867f;
+  --ink-4: #b8b4ad;
+  --paper: #f5f2ed;
+  --paper-2: #ede9e2;
+  --paper-3: #e4dfd6;
+  --rule: #d8d3ca;
+  --green: #2d6a4f;
+  --green-bg: #e8f4ee;
+  --blue: #1a4a7a;
+  --blue-bg: #e8f0f8;
+  --amber: #7a4a10;
+  --amber-bg: #f8f0e0;
+  --red: #7a2020;
+  --red-bg: #f8e8e8;
+  --purple: #4a2a7a;
+  --purple-bg: #f0ebf8;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'Instrument Sans', system-ui, sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  background: var(--ink);
+  padding: 0 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 48px; position: sticky; top: 0; z-index: 200;
+}
+.topbar-left { display: flex; align-items: center; gap: 20px; }
+.topbar-project { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,.3); letter-spacing: .1em; text-transform: uppercase; }
+.topbar-title { font-family: var(--serif); font-size: 16px; color: #fff; }
+.topbar-nav { display: flex; gap: 2px; }
+.topbar-nav a {
+  font-size: 12px; color: rgba(255,255,255,.4); text-decoration: none;
+  padding: 4px 10px; border-radius: 4px; transition: all .12s;
+}
+.topbar-nav a:hover, .topbar-nav a.active { background: rgba(255,255,255,.1); color: rgba(255,255,255,.9); }
+.week-badge { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,.3); border: 1px solid rgba(255,255,255,.08); padding: 3px 9px; border-radius: 4px; }
+
+/* ── CONTAINER ── */
+.container { max-width: 1220px; margin: 0 auto; padding: 0 2.5rem; }
+
+/* ── FOCUS SECTION ── */
+.focus-section { padding: 2.5rem 0 2.25rem; border-bottom: 1px solid var(--rule); }
+.focus-label {
+  font-family: var(--mono); font-size: 9px; text-transform: uppercase;
+  letter-spacing: .15em; color: var(--ink-3); margin-bottom: .875rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.focus-pulse {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--red); flex-shrink: 0;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
+.focus-question {
+  font-family: var(--serif); font-size: 30px; line-height: 1.15;
+  color: var(--ink); margin-bottom: .75rem; max-width: 760px;
+}
+.focus-why { font-size: 14px; color: var(--ink-2); max-width: 620px; line-height: 1.7; margin-bottom: 1.25rem; }
+.focus-bottom { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.focus-action {
+  font-size: 13px; font-weight: 600;
+  background: var(--ink); color: #fff;
+  padding: 8px 16px; border-radius: 6px; line-height: 1.3;
+}
+.focus-meta { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+.focus-edit-btn {
+  margin-left: auto; font-family: var(--mono); font-size: 10px;
+  color: var(--ink-3); border: 1px solid var(--rule); background: none;
+  cursor: pointer; padding: 5px 11px; border-radius: 5px; transition: all .12s;
+}
+.focus-edit-btn:hover { color: var(--ink); border-color: var(--ink-3); }
+
+/* ── EDIT PANEL ── */
+.edit-panel {
+  display: none; margin-top: 1.5rem;
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: 10px; padding: 1.25rem;
+}
+.edit-panel.open { display: block; }
+.edit-row { margin-bottom: .875rem; }
+.edit-label { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); margin-bottom: 4px; }
+.edit-input, .edit-textarea {
+  width: 100%; border: 1px solid var(--rule); border-radius: 6px;
+  padding: 8px 10px; font-family: var(--sans); font-size: 13px;
+  color: var(--ink); background: var(--paper); resize: vertical;
+  outline: none; transition: border-color .12s;
+}
+.edit-input:focus, .edit-textarea:focus { border-color: var(--ink-3); }
+.edit-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.edit-actions { display: flex; gap: 8px; margin-top: 1rem; }
+.btn-primary { background: var(--ink); color: #fff; border: none; padding: 7px 16px; border-radius: 6px; font-size: 12px; font-family: var(--sans); cursor: pointer; font-weight: 500; }
+.btn-secondary { background: none; color: var(--ink-2); border: 1px solid var(--rule); padding: 7px 16px; border-radius: 6px; font-size: 12px; font-family: var(--sans); cursor: pointer; }
+
+/* ── SECTIONS ── */
+.section { padding: 2.5rem 0; border-bottom: 1px solid var(--rule); }
+.section:last-child { border-bottom: none; padding-bottom: 4rem; }
+.section-eyebrow {
+  font-family: var(--mono); font-size: 9px; text-transform: uppercase;
+  letter-spacing: .1em; color: var(--ink-3); margin-bottom: .5rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+.section-title { font-family: var(--serif); font-size: 24px; margin-bottom: .5rem; }
+.section-lead { font-size: 13px; color: var(--ink-2); max-width: 560px; line-height: 1.65; margin-bottom: 1.5rem; }
+
+/* ── SYSTEM MAP ── */
+.system-wrap { display: flex; align-items: stretch; gap: 0; overflow-x: auto; margin-bottom: 1rem; }
+.sys-card {
+  flex: 1; min-width: 200px; border: 1.5px solid var(--rule); border-radius: 10px;
+  padding: .875rem 1rem; background: var(--paper); display: flex; flex-direction: column; gap: 4px;
+}
+.sys-trust { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: .06em; }
+.sys-name { font-size: 15px; font-weight: 600; }
+.sys-job { font-size: 11px; color: var(--ink-3); line-height: 1.4; flex: 1; }
+.sys-conf { font-family: var(--mono); font-size: 9px; font-weight: 500; padding: 2px 7px; border-radius: 3px; display: inline-block; margin-top: 4px; align-self: flex-start; }
+.sys-arrow { display: flex; align-items: center; padding: 0 6px; color: var(--ink-4); font-size: 16px; flex-shrink: 0; }
+
+/* ── BADGE COLORS ── */
+.c-assumed   { background: var(--paper-3); color: var(--ink-3); }
+.c-concept   { background: var(--amber-bg); color: var(--amber); }
+.c-testing   { background: var(--blue-bg); color: var(--blue); }
+.c-validated { background: var(--green-bg); color: var(--green); border: 1px solid #b8d8c8; }
+.c-deferred  { background: var(--paper-2); color: var(--ink-4); }
+
+/* ── KANBAN ── */
+.kanban { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.kanban-col { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+.kanban-head { padding: 9px 12px; border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; }
+.kanban-head-label { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; font-weight: 500; }
+.kanban-count { font-family: var(--mono); font-size: 10px; color: var(--ink-3); }
+.kanban-body { padding: 8px; min-height: 80px; }
+
+/* col header colors */
+.col-untested .kanban-head { background: var(--amber-bg); }
+.col-untested .kanban-head-label { color: var(--amber); }
+.col-testing  .kanban-head { background: var(--blue-bg); }
+.col-testing  .kanban-head-label { color: var(--blue); }
+.col-answered .kanban-head { background: var(--green-bg); }
+.col-answered .kanban-head-label { color: var(--green); }
+.col-deferred .kanban-head { background: var(--paper-2); }
+.col-deferred .kanban-head-label { color: var(--ink-3); }
+
+/* ── HYP CARD ── */
+.hyp-card {
+  border: 1px solid var(--rule); border-radius: 8px;
+  padding: 10px 11px; margin-bottom: 7px; background: var(--paper);
+  transition: border-color .12s, box-shadow .12s; position: relative;
+}
+.hyp-card:last-child { margin-bottom: 0; }
+.hyp-card:hover { border-color: var(--ink-3); box-shadow: 0 1px 5px rgba(0,0,0,.07); }
+.hyp-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; gap: 6px; }
+.hyp-id { font-family: var(--mono); font-size: 9px; color: var(--ink-4); flex-shrink: 0; margin-top: 1px; }
+.hyp-badges { display: flex; gap: 4px; align-items: center; flex-shrink: 0; }
+.alt-badge { font-family: var(--mono); font-size: 8px; padding: 2px 5px; border-radius: 3px; }
+.alt-system  { background: var(--purple-bg); color: var(--purple); }
+.alt-concept { background: var(--amber-bg); color: var(--amber); }
+.alt-form    { background: var(--blue-bg); color: var(--blue); }
+.status-badge {
+  font-family: var(--mono); font-size: 8px; padding: 2px 6px; border-radius: 3px;
+  cursor: pointer; user-select: none; transition: opacity .1s;
+}
+.status-badge:hover { opacity: .8; }
+.hyp-statement { font-size: 12px; color: var(--ink); line-height: 1.45; margin-bottom: 7px; }
+.hyp-footer { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+.node-tag { font-family: var(--mono); font-size: 9px; padding: 2px 6px; border-radius: 3px; }
+.hyp-source { font-family: var(--mono); font-size: 9px; color: var(--ink-4); }
+.hyp-next-action { font-size: 11px; color: var(--ink-3); line-height: 1.4; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--paper-3); }
+.hyp-next-action::before { content: '→ '; color: var(--ink-4); }
+.hyp-learning {
+  margin-top: 8px; padding: 8px 10px;
+  background: var(--green-bg); border: 1px solid #b8d8c8;
+  border-radius: 6px; font-size: 11px; color: var(--green); line-height: 1.55;
+}
+.hyp-learning-source { font-family: var(--mono); font-size: 9px; color: #5a9a7f; margin-top: 4px; }
+
+/* ── STATUS POPOVER ── */
+.status-popover {
+  position: absolute; right: 8px; top: 34px; z-index: 100;
+  background: var(--paper); border: 1px solid var(--rule);
+  border-radius: 8px; box-shadow: 0 4px 18px rgba(0,0,0,.14);
+  padding: 5px; min-width: 158px; display: none;
+}
+.status-popover.open { display: block; }
+.status-option {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px; border-radius: 5px; cursor: pointer;
+  font-size: 12px; color: var(--ink-2); transition: background .1s;
+}
+.status-option:hover { background: var(--paper-2); color: var(--ink); }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.45);
+  z-index: 500; display: none; align-items: center; justify-content: center; padding: 1rem;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--paper); border-radius: 12px;
+  padding: 2rem; max-width: 520px; width: 100%;
+  box-shadow: 0 8px 40px rgba(0,0,0,.2);
+}
+.modal-title { font-family: var(--serif); font-size: 22px; margin-bottom: .25rem; }
+.modal-rule { font-size: 12px; color: var(--ink-3); font-style: italic; margin-bottom: .75rem; line-height: 1.5; }
+.modal-hyp { font-size: 11px; font-family: var(--mono); color: var(--ink-4); margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--rule); }
+.modal-row { margin-bottom: .875rem; }
+.modal-label { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); margin-bottom: 4px; }
+.modal-input {
+  width: 100%; border: 1px solid var(--rule); border-radius: 6px;
+  padding: 8px 10px; font-family: var(--sans); font-size: 13px;
+  color: var(--ink); background: var(--paper); outline: none; resize: vertical;
+  transition: border-color .12s; min-height: 52px;
+}
+.modal-input:focus { border-color: var(--ink-3); }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1.25rem; }
+
+/* ── BLOCKERS ── */
+.blocker {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  background: var(--red-bg); border: 1px solid #e8c0c0;
+  border-radius: 8px; padding: .875rem 1rem; margin-bottom: 8px;
+}
+.blocker.resolved { background: var(--green-bg); border-color: #b8d8c8; opacity: .55; }
+.blocker-text { font-size: 13px; color: var(--ink); line-height: 1.4; margin-bottom: 3px; }
+.blocker-action { font-size: 11px; font-family: var(--mono); color: var(--ink-3); }
+.blocker-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; margin-left: 14px; padding-top: 1px; }
+.blocker-owner { font-family: var(--mono); font-size: 10px; font-weight: 500; }
+.blocker-btn {
+  font-size: 10px; font-family: var(--mono); cursor: pointer;
+  border: 1px solid var(--rule); padding: 4px 10px; border-radius: 4px; background: none;
+  color: var(--ink-3); transition: all .12s;
+}
+.blocker-btn:hover { color: var(--ink); border-color: var(--ink-3); }
+
+/* ── DATA ANCHORS ── */
+.anchors { display: flex; flex-wrap: wrap; gap: 8px; }
+.anchor { border: 1px solid var(--rule); border-radius: 8px; padding: .75rem .875rem; background: var(--paper); }
+.anchor-stat { font-family: var(--mono); font-size: 20px; font-weight: 500; line-height: 1.1; }
+.anchor-label { font-size: 11px; color: var(--ink-2); margin-top: 3px; max-width: 180px; line-height: 1.4; }
+.anchor-source { font-family: var(--mono); font-size: 9px; color: var(--ink-4); margin-top: 3px; }
+
+/* ── EMPTY STATE ── */
+.kanban-empty { padding: 16px 10px; text-align: center; font-size: 11px; color: var(--ink-4); }
+
+b, strong { font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="topbar-project">Lodgify · TTV Tribe</span>
+    <span class="topbar-title">Account Setup</span>
+    <nav class="topbar-nav">
+      <a href="#focus">Focus</a>
+      <a href="#system">System</a>
+      <a href="#hypotheses">Hypotheses</a>
+      <a href="#blockers">Blockers</a>
+      <a href="#data">Data</a>
+    </nav>
+  </div>
+  <div class="week-badge">Week of May 18, 2026</div>
+</div>
+
+<div class="container">
+
+  <!-- ── FOCUS ── -->
+  <section class="focus-section" id="focus">
+    <div class="focus-label">
+      <span class="focus-pulse"></span>
+      Focus this week
+    </div>
+    <div class="focus-question" id="focus-question">—</div>
+    <div class="focus-why" id="focus-why">—</div>
+    <div class="focus-bottom">
+      <div class="focus-action" id="focus-action">—</div>
+      <div class="focus-meta"><span id="focus-owner">—</span> · <span id="focus-deadline">—</span></div>
+      <button class="focus-edit-btn" onclick="toggleFocusEdit()">Edit focus</button>
+    </div>
+    <div class="edit-panel" id="focus-edit-panel">
+      <div class="edit-row">
+        <div class="edit-label">Question we're answering this week</div>
+        <input class="edit-input" id="ep-question" type="text">
+      </div>
+      <div class="edit-row">
+        <div class="edit-label">Why it's load-bearing</div>
+        <textarea class="edit-textarea" id="ep-why" rows="2"></textarea>
+      </div>
+      <div class="edit-row">
+        <div class="edit-label">The one action that moves it</div>
+        <input class="edit-input" id="ep-action" type="text">
+      </div>
+      <div class="edit-row-2 edit-row">
+        <div>
+          <div class="edit-label">Owner</div>
+          <input class="edit-input" id="ep-owner" type="text">
+        </div>
+        <div>
+          <div class="edit-label">By when</div>
+          <input class="edit-input" id="ep-deadline" type="text">
+        </div>
+      </div>
+      <div class="edit-actions">
+        <button class="btn-primary" onclick="saveFocus()">Save</button>
+        <button class="btn-secondary" onclick="toggleFocusEdit()">Cancel</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SYSTEM ── -->
+  <section class="section" id="system">
+    <div class="section-eyebrow">System</div>
+    <h2 class="section-title">The four nodes</h2>
+    <div class="system-wrap">
+      <div class="sys-card" style="border-color:#0F6E56">
+        <div class="sys-trust" style="color:#0F6E56">Trust 1 · "This is safe"</div>
+        <div class="sys-name">Import Data</div>
+        <div class="sys-job">Get the rental into the system</div>
+        <span class="sys-conf c-concept">Concept stage</span>
+      </div>
+      <div class="sys-arrow">→</div>
+      <div class="sys-card" style="border-color:#534AB7">
+        <div class="sys-trust" style="color:#534AB7">Trust 2 · "This is working"</div>
+        <div class="sys-name">Core levers</div>
+        <div class="sys-job">Build momentum toward first booking</div>
+        <span class="sys-conf c-testing">Testing now</span>
+      </div>
+      <div class="sys-arrow">→</div>
+      <div class="sys-card" style="border-color:#854F0B">
+        <div class="sys-trust" style="color:#854F0B">Trust 3 · "This was right"</div>
+        <div class="sys-name">Outcome</div>
+        <div class="sys-job">Host sees results — 1–10 bookings</div>
+        <span class="sys-conf c-assumed">Assumed</span>
+      </div>
+      <div class="sys-arrow" style="color:var(--ink-4)">⇢</div>
+      <div class="sys-card" style="border-color:var(--rule); opacity:.75">
+        <div class="sys-trust" style="color:var(--ink-3)">Parallel / post-outcome</div>
+        <div class="sys-name">Additional levers</div>
+        <div class="sys-job">Optimization, quality of life</div>
+        <span class="sys-conf c-deferred">Not prioritised</span>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--ink-3);font-style:italic;">Not a flow — nodes can overlap. Arrows show direction of trust progression, not strict time sequence.</p>
+  </section>
+
+  <!-- ── HYPOTHESES ── -->
+  <section class="section" id="hypotheses">
+    <div class="section-eyebrow">Hypotheses</div>
+    <h2 class="section-title">What we're betting on</h2>
+    <p class="section-lead">Click the status badge on any card to move it. When something moves to Answered, capture the learning — that's the only thing that counts.</p>
+    <div class="kanban" id="kanban-board"></div>
+  </section>
+
+  <!-- ── BLOCKERS ── -->
+  <section class="section" id="blockers">
+    <div class="section-eyebrow">Blockers</div>
+    <h2 class="section-title">What's in the way</h2>
+    <div id="blockers-list"></div>
+  </section>
+
+  <!-- ── DATA ── -->
+  <section class="section" id="data">
+    <div class="section-eyebrow">Data</div>
+    <h2 class="section-title">What we know for certain</h2>
+    <div class="anchors">
+      <div class="anchor">
+        <div class="anchor-stat">3×</div>
+        <div class="anchor-label">more likely to churn if zero bookings by Day 14</div>
+        <div class="anchor-source">Anna · Apr 2026 · n=7.2k</div>
+      </div>
+      <div class="anchor">
+        <div class="anchor-stat">+22pp</div>
+        <div class="anchor-label">occupancy uplift from 0 → 2 OTAs connected</div>
+        <div class="anchor-source">Anna · Oct 2025 · n=1,750</div>
+      </div>
+      <div class="anchor">
+        <div class="anchor-stat">79–84%</div>
+        <div class="anchor-label">retention for smart pricing users vs 78.3% base</div>
+        <div class="anchor-source">Marta · Apr 2026</div>
+      </div>
+      <div class="anchor">
+        <div class="anchor-stat">65%</div>
+        <div class="anchor-label">of hosts take no action on Day 1</div>
+        <div class="anchor-source">Amplitude · passive discovery is failing</div>
+      </div>
+      <div class="anchor">
+        <div class="anchor-stat">~50%</div>
+        <div class="anchor-label">of new hosts arrive OTA-led (not ready to go live)</div>
+        <div class="anchor-source">Giulia · Apr 2026 · n=171</div>
+      </div>
+      <div class="anchor">
+        <div class="anchor-stat">69%</div>
+        <div class="anchor-label">of independent hosts use no pricing tool at all</div>
+        <div class="anchor-source">Lodgify data</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ── LEARNING MODAL ── -->
+<div class="modal-overlay" id="learning-modal">
+  <div class="modal">
+    <div class="modal-title">Capture the learning</div>
+    <div class="modal-rule">"We now know X, which means we will Y and will NOT Z." — Observations don't count. Only decisions count.</div>
+    <div class="modal-hyp" id="modal-hyp-label"></div>
+    <div class="modal-row">
+      <div class="modal-label">We now know…</div>
+      <textarea class="modal-input" id="ml-know" rows="2" placeholder="The specific finding"></textarea>
+    </div>
+    <div class="modal-row">
+      <div class="modal-label">…which means we will…</div>
+      <textarea class="modal-input" id="ml-will" rows="2" placeholder="What you'll build or do because of this"></textarea>
+    </div>
+    <div class="modal-row">
+      <div class="modal-label">…and will NOT…</div>
+      <textarea class="modal-input" id="ml-not" rows="2" placeholder="What you're ruling out"></textarea>
+    </div>
+    <div class="modal-row">
+      <div class="modal-label">Source</div>
+      <input type="text" class="modal-input" id="ml-source" style="min-height:0" placeholder="Session date, experiment read, data pull…">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveLearning()">Save learning →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DEFAULT DATA ─────────────────────────────────────────────────────────────
+
+const DEFAULT_FOCUS = {
+  question: 'Do OTA and non-OTA hosts need structurally different import experiences?',
+  why: 'This gates everything downstream. If yes, the system branches at the very first moment — you can\'t design Core levers until you know which starting point each host has.',
+  action: 'Get paid panel authority approved → send recruitment emails by Mon',
+  owner: 'Vinnie',
+  deadline: 'Mon May 25'
+};
+
+const DEFAULT_HYPOTHESES = [
+  {
+    id: 'H1.1', altitude: 'system', altitudeLabel: 'System', node: null, nodeColor: null,
+    statement: 'Two entry points, not one. Hosts who import from Airbnb and hosts who create from scratch have fundamentally different jobs at node 1. One entry point fails ~30% of users by design.',
+    status: 'concept',
+    nextAction: 'Moderated sessions — ask about first-listing mental model. No prototype needed.',
+    learning: null, source: null
+  },
+  {
+    id: 'H1.2', altitude: 'system', altitudeLabel: 'System', node: null, nodeColor: null,
+    statement: 'Delegation preference travels through the whole system. Detecting it early changes how every node behaves — not just one step. It\'s not a seniority question, it\'s a willingness-to-delegate question.',
+    status: 'assumed',
+    nextAction: 'Adversarial stress-test: find the strongest case this is wrong. What would the alternative model look like?',
+    learning: null, source: null
+  },
+  {
+    id: 'H1.3', altitude: 'system', altitudeLabel: 'System', node: null, nodeColor: null,
+    statement: 'Trust stages gate each other. A host who doesn\'t feel safe won\'t engage with momentum signals. Surfacing stage 2 before stage 1 is resolved doesn\'t just fail — it damages trust.',
+    status: 'assumed',
+    nextAction: 'Behavioral data: find hosts who skipped Import and went to Core levers directly. Did they convert?',
+    learning: null, source: null
+  },
+  {
+    id: 'H2.1', altitude: 'concept', altitudeLabel: 'Node', node: 'Import', nodeColor: '#0F6E56',
+    statement: 'After importing, a host needs an explicit confirmation moment — not just landing on the calendar. "Your data is correct" must be stated, not assumed.',
+    status: 'concept',
+    nextAction: 'Concept test sprint 2: does a validation screen need to exist? 5 sessions.',
+    learning: null, source: null
+  },
+  {
+    id: 'H2.2', altitude: 'concept', altitudeLabel: 'Node', node: 'Core levers', nodeColor: '#534AB7',
+    statement: 'Core levers must be surfaced as a mandatory flow, not discovered in product. 65% D1 inaction is already behavioral evidence that passive discovery fails.',
+    status: 'concept',
+    nextAction: 'Amplitude pull: how did D1-active hosts navigate to levers? Embed question in next 3 sessions.',
+    learning: null, source: null
+  },
+  {
+    id: 'H2.3', altitude: 'concept', altitudeLabel: 'Node', node: 'Core levers', nodeColor: '#534AB7',
+    statement: 'The system must actively signal momentum — impressions, views, co-host activity — before a booking arrives. Without it, hosts disengage in the silence gap.',
+    status: 'assumed',
+    nextAction: 'CS churn recordings, D1–14 churners. Ask: what made you stop logging in?',
+    learning: null, source: null
+  },
+  {
+    id: 'H2.4', altitude: 'concept', altitudeLabel: 'Node', node: 'Outcome', nodeColor: '#854F0B',
+    statement: 'When a booking arrives, Lodgify must make the causal link explicit. Without it, hosts credit Airbnb — and Lodgify becomes invisible middleware.',
+    status: 'assumed',
+    nextAction: 'Ask CS to flag 5 hosts with a first booking. Call them: "where did it come from?"',
+    learning: null, source: null
+  },
+  {
+    id: 'H3.1', altitude: 'form', altitudeLabel: 'Form', node: 'Import', nodeColor: '#0F6E56',
+    statement: 'Redesigned Airbnb connection page with trust copy reduces drop-off at the connection step. Primary metric: click-through to OAuth.',
+    status: 'testing',
+    nextAction: 'A/B live. Early read May 25.',
+    learning: null, source: 'A/B live · early read May 25'
+  },
+  {
+    id: 'H3.2', altitude: 'form', altitudeLabel: 'Form', node: 'Core levers', nodeColor: '#534AB7',
+    statement: 'Agentic onboarding (co-host acts first, host approves) reduces D1 inaction rate vs. current checklist. Override rate is the trust signal to watch.',
+    status: 'testing',
+    nextAction: '50/50 live split. Watch D1 action rate and override rate.',
+    learning: null, source: '50/50 split · pending dev handoff'
+  }
+];
+
+const DEFAULT_BLOCKERS = [
+  { id: 'b1', text: 'Concept test recruitment: 12-day cycle is blocking learning velocity. Needs authority to use a paid panel.', action: 'Decision needed', owner: 'Gus / Anila', resolved: false },
+  { id: 'b2', text: 'Airbnb connection page A/B + agentic onboarding: both designed, waiting on dev handoff to Nathan.', action: 'Handoff this week', owner: 'Tibo', resolved: false }
+];
+
+// ─── STATUS CONFIG ────────────────────────────────────────────────────────────
+
+const STATUS = {
+  assumed:   { label: 'Assumed',       col: 'untested',  dot: '#b8b4ad', cls: 'c-assumed'   },
+  concept:   { label: 'Concept stage', col: 'untested',  dot: '#d4822a', cls: 'c-concept'   },
+  testing:   { label: 'Testing now',   col: 'testing',   dot: '#1a4a7a', cls: 'c-testing'   },
+  validated: { label: 'Answered',      col: 'answered',  dot: '#2d6a4f', cls: 'c-validated' },
+  deferred:  { label: 'Deferred',      col: 'deferred',  dot: '#d8d3ca', cls: 'c-deferred'  }
+};
+
+const COLS = [
+  { id: 'untested', label: 'To test',     cls: 'col-untested' },
+  { id: 'testing',  label: 'Testing now', cls: 'col-testing'  },
+  { id: 'answered', label: 'Answered',    cls: 'col-answered' },
+  { id: 'deferred', label: 'Deferred',    cls: 'col-deferred' }
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem('acct-setup-v2');
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return null;
+}
+function persist() { localStorage.setItem('acct-setup-v2', JSON.stringify(state)); }
+
+const saved = loadState();
+const state = {
+  focus:       saved?.focus       || { ...DEFAULT_FOCUS },
+  hypotheses:  saved?.hypotheses  || DEFAULT_HYPOTHESES.map(h => ({ ...h })),
+  blockers:    saved?.blockers    || DEFAULT_BLOCKERS.map(b => ({ ...b }))
+};
+
+// ─── FOCUS ────────────────────────────────────────────────────────────────────
+
+function renderFocus() {
+  document.getElementById('focus-question').textContent = state.focus.question;
+  document.getElementById('focus-why').textContent      = state.focus.why;
+  document.getElementById('focus-action').textContent   = state.focus.action;
+  document.getElementById('focus-owner').textContent    = state.focus.owner;
+  document.getElementById('focus-deadline').textContent = state.focus.deadline;
+}
+
+function toggleFocusEdit() {
+  const panel = document.getElementById('focus-edit-panel');
+  if (!panel.classList.contains('open')) {
+    document.getElementById('ep-question').value = state.focus.question;
+    document.getElementById('ep-why').value       = state.focus.why;
+    document.getElementById('ep-action').value    = state.focus.action;
+    document.getElementById('ep-owner').value     = state.focus.owner;
+    document.getElementById('ep-deadline').value  = state.focus.deadline;
+  }
+  panel.classList.toggle('open');
+}
+
+function saveFocus() {
+  const q = document.getElementById('ep-question').value.trim();
+  if (!q) return;
+  state.focus = {
+    question: q,
+    why:      document.getElementById('ep-why').value.trim(),
+    action:   document.getElementById('ep-action').value.trim(),
+    owner:    document.getElementById('ep-owner').value.trim(),
+    deadline: document.getElementById('ep-deadline').value.trim()
+  };
+  persist();
+  renderFocus();
+  document.getElementById('focus-edit-panel').classList.remove('open');
+}
+
+// ─── KANBAN ───────────────────────────────────────────────────────────────────
+
+function renderKanban() {
+  const board = document.getElementById('kanban-board');
+  board.innerHTML = '';
+
+  COLS.forEach(col => {
+    const cards = state.hypotheses.filter(h => STATUS[h.status].col === col.id);
+    const colEl = document.createElement('div');
+    colEl.className = `kanban-col ${col.cls}`;
+    colEl.innerHTML = `
+      <div class="kanban-head">
+        <span class="kanban-head-label">${col.label}</span>
+        <span class="kanban-count">${cards.length}</span>
+      </div>
+      <div class="kanban-body" id="kb-${col.id}"></div>
+    `;
+    board.appendChild(colEl);
+
+    const body = colEl.querySelector(`#kb-${col.id}`);
+    if (cards.length === 0) {
+      body.innerHTML = '<div class="kanban-empty">—</div>';
+    } else {
+      cards.forEach(h => body.appendChild(buildCard(h)));
+    }
+  });
+}
+
+function buildCard(h) {
+  const s = STATUS[h.status];
+  const div = document.createElement('div');
+  div.className = 'hyp-card';
+  div.dataset.id = h.id;
+
+  const nodeTag = h.node
+    ? `<span class="node-tag" style="color:${h.nodeColor};background:${h.nodeColor}1a">${h.node}</span>`
+    : '';
+
+  const sourceBadge = (h.source && h.status === 'testing')
+    ? `<span class="hyp-source">${h.source}</span>`
+    : '';
+
+  const nextHtml = (h.status !== 'validated' && h.nextAction)
+    ? `<div class="hyp-next-action">${h.nextAction}</div>`
+    : '';
+
+  let learningHtml = '';
+  if (h.learning && h.status === 'validated') {
+    learningHtml = `
+      <div class="hyp-learning">
+        We now know <strong>${h.learning.know}</strong>, which means we will <strong>${h.learning.will}</strong> and will NOT ${h.learning.not}.
+        ${h.source ? `<div class="hyp-learning-source">${h.source}</div>` : ''}
+      </div>`;
+  }
+
+  const statusOptions = Object.entries(STATUS)
+    .filter(([k]) => k !== h.status)
+    .map(([k, v]) => `
+      <div class="status-option" onclick="changeStatus(event,'${h.id}','${k}')">
+        <span class="status-dot" style="background:${v.dot}"></span>${v.label}
+      </div>`).join('');
+
+  div.innerHTML = `
+    <div class="hyp-card-top">
+      <span class="hyp-id">${h.id}</span>
+      <div class="hyp-badges">
+        <span class="alt-badge alt-${h.altitude}">${h.altitudeLabel}</span>
+        <span class="status-badge ${s.cls}" onclick="togglePopover(event,'${h.id}')">${s.label} ▾</span>
+      </div>
+    </div>
+    <div class="hyp-statement">${h.statement}</div>
+    <div class="hyp-footer">${nodeTag}${sourceBadge}</div>
+    ${nextHtml}
+    ${learningHtml}
+    <div class="status-popover" id="pop-${h.id}">${statusOptions}</div>
+  `;
+  return div;
+}
+
+// ─── POPOVER ──────────────────────────────────────────────────────────────────
+
+let activePopover = null;
+
+function togglePopover(e, id) {
+  e.stopPropagation();
+  const pop = document.getElementById(`pop-${id}`);
+  if (activePopover && activePopover !== pop) activePopover.classList.remove('open');
+  pop.classList.toggle('open');
+  activePopover = pop.classList.contains('open') ? pop : null;
+}
+
+document.addEventListener('click', () => {
+  if (activePopover) { activePopover.classList.remove('open'); activePopover = null; }
+});
+
+// ─── STATUS CHANGE ────────────────────────────────────────────────────────────
+
+let pendingChange = null;
+
+function changeStatus(e, id, newStatus) {
+  e.stopPropagation();
+  if (activePopover) { activePopover.classList.remove('open'); activePopover = null; }
+
+  if (newStatus === 'validated') {
+    pendingChange = { id, newStatus };
+    openModal(id);
+  } else {
+    applyStatus(id, newStatus, null, null);
+  }
+}
+
+function applyStatus(id, status, learning, source) {
+  const h = state.hypotheses.find(x => x.id === id);
+  if (!h) return;
+  h.status = status;
+  if (learning) h.learning = learning;
+  if (source !== null) h.source = source;
+  persist();
+  renderKanban();
+}
+
+// ─── MODAL ────────────────────────────────────────────────────────────────────
+
+function openModal(id) {
+  const h = state.hypotheses.find(x => x.id === id);
+  document.getElementById('modal-hyp-label').textContent = `${h.id} — ${h.statement.slice(0, 90)}…`;
+  document.getElementById('ml-know').value   = h.learning?.know || '';
+  document.getElementById('ml-will').value   = h.learning?.will || '';
+  document.getElementById('ml-not').value    = h.learning?.not  || '';
+  document.getElementById('ml-source').value = h.source || '';
+  document.getElementById('learning-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('learning-modal').classList.remove('open');
+  pendingChange = null;
+}
+
+function saveLearning() {
+  if (!pendingChange) return;
+  const know = document.getElementById('ml-know').value.trim();
+  if (!know) { document.getElementById('ml-know').focus(); return; }
+
+  applyStatus(pendingChange.id, pendingChange.newStatus, {
+    know,
+    will: document.getElementById('ml-will').value.trim(),
+    not:  document.getElementById('ml-not').value.trim()
+  }, document.getElementById('ml-source').value.trim() || null);
+
+  closeModal();
+}
+
+// close modal on overlay click
+document.getElementById('learning-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ─── BLOCKERS ─────────────────────────────────────────────────────────────────
+
+function renderBlockers() {
+  const list = document.getElementById('blockers-list');
+  list.innerHTML = '';
+
+  const active   = state.blockers.filter(b => !b.resolved);
+  const resolved = state.blockers.filter(b =>  b.resolved);
+
+  if (active.length === 0 && resolved.length === 0) {
+    list.innerHTML = '<p style="font-size:13px;color:var(--green);">No open blockers.</p>';
+    return;
+  }
+
+  [...active, ...resolved].forEach(b => {
+    const div = document.createElement('div');
+    div.className = `blocker${b.resolved ? ' resolved' : ''}`;
+    div.innerHTML = `
+      <div>
+        <div class="blocker-text">${b.text}</div>
+        <div class="blocker-action">${b.action}</div>
+      </div>
+      <div class="blocker-right">
+        <span class="blocker-owner" style="color:${b.resolved ? 'var(--green)' : 'var(--red)'}">${b.owner}</span>
+        <button class="blocker-btn" onclick="toggleBlocker('${b.id}')">${b.resolved ? 'Reopen' : 'Resolve'}</button>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function toggleBlocker(id) {
+  const b = state.blockers.find(x => x.id === id);
+  if (b) { b.resolved = !b.resolved; persist(); renderBlockers(); }
+}
+
+// ─── NAV HIGHLIGHT ────────────────────────────────────────────────────────────
+
+const navObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.topbar-nav a').forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('[id]').forEach(el => {
+  if (['focus','system','hypotheses','blockers','data'].includes(el.id)) navObserver.observe(el);
+});
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+
+renderFocus();
+renderKanban();
+renderBlockers();
+</script>
+</body>
+</html>
