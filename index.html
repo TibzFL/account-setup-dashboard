@@ -79,22 +79,25 @@ body {
   font-family: var(--serif); font-size: 30px; line-height: 1.15;
   color: var(--ink); margin-bottom: .75rem; max-width: 760px;
 }
-.focus-why { font-size: 14px; color: var(--ink-2); max-width: 620px; line-height: 1.7; margin-bottom: 1.25rem; }
-.focus-bottom { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.focus-action {
-  font-size: 13px; font-weight: 600;
-  background: var(--ink); color: #fff;
-  padding: 8px 16px; border-radius: 6px; line-height: 1.3;
+.focus-why { font-size: 14px; color: var(--ink-2); max-width: 620px; line-height: 1.7; margin-bottom: 1rem; }
+.focus-action-line {
+  display: flex; align-items: baseline; gap: 6px;
+  font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: .35rem;
 }
-.focus-meta { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+.focus-arrow { color: var(--ink-3); font-weight: 400; }
+.focus-ownership {
+  font-family: var(--mono); font-size: 11px; color: var(--ink-3);
+  display: flex; align-items: center; gap: 6px;
+}
+.focus-ownership-dot { color: var(--rule); }
 .focus-edit-btn {
-  margin-left: auto; font-family: var(--mono); font-size: 10px;
+  margin-top: .875rem; font-family: var(--mono); font-size: 10px;
   color: var(--ink-3); border: 1px solid var(--rule); background: none;
-  cursor: pointer; padding: 5px 11px; border-radius: 5px; transition: all .12s;
+  cursor: pointer; padding: 5px 11px; border-radius: 5px; transition: all .12s; display: inline-block;
 }
 .focus-edit-btn:hover { color: var(--ink); border-color: var(--ink-3); }
 
-/* ── EDIT PANEL ── */
+/* ── EDIT PANEL (focus) ── */
 .edit-panel {
   display: none; margin-top: 1.5rem;
   background: var(--paper-2); border: 1px solid var(--rule);
@@ -143,7 +146,7 @@ body {
 .c-assumed   { background: var(--paper-3); color: var(--ink-3); }
 .c-concept   { background: var(--amber-bg); color: var(--amber); }
 .c-testing   { background: var(--blue-bg); color: var(--blue); }
-.c-validated { background: var(--green-bg); color: var(--green); border: 1px solid #b8d8c8; }
+.c-validated { background: var(--green-bg); color: var(--green); }
 .c-deferred  { background: var(--paper-2); color: var(--ink-4); }
 
 /* ── KANBAN ── */
@@ -153,8 +156,6 @@ body {
 .kanban-head-label { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; font-weight: 500; }
 .kanban-count { font-family: var(--mono); font-size: 10px; color: var(--ink-3); }
 .kanban-body { padding: 8px; min-height: 80px; }
-
-/* col header colors */
 .col-untested .kanban-head { background: var(--amber-bg); }
 .col-untested .kanban-head-label { color: var(--amber); }
 .col-testing  .kanban-head { background: var(--blue-bg); }
@@ -168,41 +169,46 @@ body {
 .hyp-card {
   border: 1px solid var(--rule); border-radius: 8px;
   padding: 10px 11px; margin-bottom: 7px; background: var(--paper);
-  transition: border-color .12s, box-shadow .12s; position: relative;
+  cursor: pointer; transition: border-color .15s, box-shadow .15s; position: relative;
 }
 .hyp-card:last-child { margin-bottom: 0; }
-.hyp-card:hover { border-color: var(--ink-3); box-shadow: 0 1px 5px rgba(0,0,0,.07); }
-.hyp-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; gap: 6px; }
+.hyp-card:hover { border-color: var(--ink-3); box-shadow: 0 1px 6px rgba(0,0,0,.07); }
+.hyp-card.selected { border-color: var(--ink); box-shadow: 0 0 0 2px rgba(26,24,20,.08); }
+.hyp-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 7px; gap: 6px; }
 .hyp-id { font-family: var(--mono); font-size: 9px; color: var(--ink-4); flex-shrink: 0; margin-top: 1px; }
 .hyp-badges { display: flex; gap: 4px; align-items: center; flex-shrink: 0; }
 .alt-badge { font-family: var(--mono); font-size: 8px; padding: 2px 5px; border-radius: 3px; }
-.alt-system  { background: var(--purple-bg); color: var(--purple); }
-.alt-concept { background: var(--amber-bg); color: var(--amber); }
-.alt-form    { background: var(--blue-bg); color: var(--blue); }
+.alt-system { background: var(--purple-bg); color: var(--purple); }
+.alt-node   { background: var(--amber-bg);  color: var(--amber); }
+.alt-micro  { background: var(--blue-bg);   color: var(--blue); }
 .status-badge {
   font-family: var(--mono); font-size: 8px; padding: 2px 6px; border-radius: 3px;
   cursor: pointer; user-select: none; transition: opacity .1s;
 }
-.status-badge:hover { opacity: .8; }
-.hyp-statement { font-size: 12px; color: var(--ink); line-height: 1.45; margin-bottom: 7px; }
-.hyp-footer { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+.status-badge:hover { opacity: .75; }
+.hyp-statement { font-size: 12.5px; color: var(--ink); line-height: 1.45; margin-bottom: 8px; }
+.hyp-learn-label {
+  font-family: var(--mono); font-size: 9px; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--ink-3); margin-bottom: 3px;
+}
+.hyp-learn-goal { font-size: 11.5px; color: var(--ink-2); line-height: 1.45; }
+.hyp-card-foot { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; margin-top: 8px; padding-top: 7px; border-top: 1px solid var(--paper-3); }
 .node-tag { font-family: var(--mono); font-size: 9px; padding: 2px 6px; border-radius: 3px; }
 .hyp-source { font-family: var(--mono); font-size: 9px; color: var(--ink-4); }
-.hyp-next-action { font-size: 11px; color: var(--ink-3); line-height: 1.4; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--paper-3); }
-.hyp-next-action::before { content: '→ '; color: var(--ink-4); }
-.hyp-learning {
+.hyp-learning-card {
   margin-top: 8px; padding: 8px 10px;
   background: var(--green-bg); border: 1px solid #b8d8c8;
   border-radius: 6px; font-size: 11px; color: var(--green); line-height: 1.55;
 }
 .hyp-learning-source { font-family: var(--mono); font-size: 9px; color: #5a9a7f; margin-top: 4px; }
+.kanban-empty { padding: 16px 10px; text-align: center; font-size: 11px; color: var(--ink-4); }
 
-/* ── STATUS POPOVER ── */
+/* ── STATUS POPOVER (badge click) ── */
 .status-popover {
-  position: absolute; right: 8px; top: 34px; z-index: 100;
+  position: absolute; right: 8px; top: 32px; z-index: 300;
   background: var(--paper); border: 1px solid var(--rule);
   border-radius: 8px; box-shadow: 0 4px 18px rgba(0,0,0,.14);
-  padding: 5px; min-width: 158px; display: none;
+  padding: 5px; min-width: 155px; display: none;
 }
 .status-popover.open { display: block; }
 .status-option {
@@ -213,30 +219,90 @@ body {
 .status-option:hover { background: var(--paper-2); color: var(--ink); }
 .status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
-/* ── MODAL ── */
-.modal-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,.45);
-  z-index: 500; display: none; align-items: center; justify-content: center; padding: 1rem;
+/* ── DETAIL PANEL (card click) ── */
+.panel-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.18);
+  z-index: 250; display: none;
 }
-.modal-overlay.open { display: flex; }
-.modal {
-  background: var(--paper); border-radius: 12px;
-  padding: 2rem; max-width: 520px; width: 100%;
-  box-shadow: 0 8px 40px rgba(0,0,0,.2);
+.panel-overlay.open { display: block; }
+.detail-panel {
+  position: fixed; top: 48px; right: -460px; bottom: 0; width: 440px;
+  background: var(--paper); border-left: 1px solid var(--rule);
+  box-shadow: -6px 0 32px rgba(0,0,0,.1);
+  transition: right .22s cubic-bezier(.4,0,.2,1);
+  z-index: 260; overflow-y: auto; display: flex; flex-direction: column;
 }
-.modal-title { font-family: var(--serif); font-size: 22px; margin-bottom: .25rem; }
-.modal-rule { font-size: 12px; color: var(--ink-3); font-style: italic; margin-bottom: .75rem; line-height: 1.5; }
-.modal-hyp { font-size: 11px; font-family: var(--mono); color: var(--ink-4); margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--rule); }
-.modal-row { margin-bottom: .875rem; }
-.modal-label { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); margin-bottom: 4px; }
-.modal-input {
+.detail-panel.open { right: 0; }
+.panel-head {
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--rule);
+  display: flex; align-items: flex-start; justify-content: space-between;
+  position: sticky; top: 0; background: var(--paper); z-index: 1;
+}
+.panel-id { font-family: var(--mono); font-size: 11px; color: var(--ink-3); margin-bottom: 4px; }
+.panel-badges { display: flex; gap: 5px; margin-top: 4px; }
+.panel-close {
+  background: none; border: 1px solid var(--rule); cursor: pointer;
+  color: var(--ink-3); border-radius: 5px; padding: 4px 10px;
+  font-size: 12px; font-family: var(--sans); flex-shrink: 0; margin-left: 12px;
+  transition: all .12s;
+}
+.panel-close:hover { color: var(--ink); border-color: var(--ink-3); }
+.panel-body { padding: 1.25rem 1.5rem; flex: 1; }
+.panel-row { margin-bottom: 1.1rem; }
+.panel-label {
+  font-family: var(--mono); font-size: 9px; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--ink-3); margin-bottom: 5px;
+}
+.panel-input {
   width: 100%; border: 1px solid var(--rule); border-radius: 6px;
   padding: 8px 10px; font-family: var(--sans); font-size: 13px;
-  color: var(--ink); background: var(--paper); outline: none; resize: vertical;
-  transition: border-color .12s; min-height: 52px;
+  color: var(--ink); background: var(--paper); resize: vertical;
+  outline: none; transition: border-color .12s;
 }
-.modal-input:focus { border-color: var(--ink-3); }
-.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1.25rem; }
+.panel-input:focus { border-color: var(--ink-3); }
+
+/* ── STATUS PILLS (inside panel) ── */
+.status-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.1rem; }
+.status-pill {
+  font-family: var(--mono); font-size: 10px; padding: 5px 11px; border-radius: 20px;
+  cursor: pointer; border: 1.5px solid var(--rule); color: var(--ink-3);
+  background: var(--paper); transition: all .12s; user-select: none;
+}
+.status-pill:hover { border-color: var(--ink-3); color: var(--ink); }
+.status-pill.active-assumed   { background: var(--paper-3); color: var(--ink-3); border-color: #c8c3bc; }
+.status-pill.active-concept   { background: var(--amber-bg); color: var(--amber); border-color: #d4a06a; }
+.status-pill.active-testing   { background: var(--blue-bg);  color: var(--blue);  border-color: #7aaccf; }
+.status-pill.active-validated { background: var(--green-bg); color: var(--green); border-color: #7ab89a; }
+.status-pill.active-deferred  { background: var(--paper-2);  color: var(--ink-4); border-color: var(--rule); }
+
+/* ── LEARNING FIELDS (panel, shown when answered) ── */
+.learning-fields {
+  display: none; margin-top: .25rem; padding: 1rem;
+  background: var(--green-bg); border: 1px solid #b8d8c8; border-radius: 8px;
+}
+.learning-fields.visible { display: block; }
+.lf-label {
+  font-family: var(--mono); font-size: 9px; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--green); margin-bottom: 4px; margin-top: .75rem;
+}
+.lf-label:first-child { margin-top: 0; }
+.lf-input {
+  width: 100%; border: 1px solid #b8d8c8; border-radius: 6px;
+  padding: 7px 9px; font-family: var(--sans); font-size: 12px;
+  color: var(--ink); background: #fff; resize: vertical; outline: none;
+  transition: border-color .12s; min-height: 46px;
+}
+.lf-input:focus { border-color: #7ab89a; }
+.lf-rule {
+  font-size: 11px; color: var(--green); font-style: italic;
+  margin-bottom: .75rem; line-height: 1.5;
+}
+.panel-foot {
+  padding: 1rem 1.5rem; border-top: 1px solid var(--rule);
+  display: flex; gap: 8px; position: sticky; bottom: 0;
+  background: var(--paper);
+}
 
 /* ── BLOCKERS ── */
 .blocker {
@@ -247,7 +313,7 @@ body {
 .blocker.resolved { background: var(--green-bg); border-color: #b8d8c8; opacity: .55; }
 .blocker-text { font-size: 13px; color: var(--ink); line-height: 1.4; margin-bottom: 3px; }
 .blocker-action { font-size: 11px; font-family: var(--mono); color: var(--ink-3); }
-.blocker-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; margin-left: 14px; padding-top: 1px; }
+.blocker-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; margin-left: 14px; }
 .blocker-owner { font-family: var(--mono); font-size: 10px; font-weight: 500; }
 .blocker-btn {
   font-size: 10px; font-family: var(--mono); cursor: pointer;
@@ -262,9 +328,6 @@ body {
 .anchor-stat { font-family: var(--mono); font-size: 20px; font-weight: 500; line-height: 1.1; }
 .anchor-label { font-size: 11px; color: var(--ink-2); margin-top: 3px; max-width: 180px; line-height: 1.4; }
 .anchor-source { font-family: var(--mono); font-size: 9px; color: var(--ink-4); margin-top: 3px; }
-
-/* ── EMPTY STATE ── */
-.kanban-empty { padding: 16px 10px; text-align: center; font-size: 11px; color: var(--ink-4); }
 
 b, strong { font-weight: 600; }
 </style>
@@ -297,11 +360,16 @@ b, strong { font-weight: 600; }
     </div>
     <div class="focus-question" id="focus-question">—</div>
     <div class="focus-why" id="focus-why">—</div>
-    <div class="focus-bottom">
-      <div class="focus-action" id="focus-action">—</div>
-      <div class="focus-meta"><span id="focus-owner">—</span> · <span id="focus-deadline">—</span></div>
-      <button class="focus-edit-btn" onclick="toggleFocusEdit()">Edit focus</button>
+    <div class="focus-action-line">
+      <span class="focus-arrow">→</span>
+      <span id="focus-action">—</span>
     </div>
+    <div class="focus-ownership">
+      <span id="focus-owner">—</span>
+      <span class="focus-ownership-dot">·</span>
+      <span id="focus-deadline">—</span>
+    </div>
+    <button class="focus-edit-btn" onclick="toggleFocusEdit()">Edit focus</button>
     <div class="edit-panel" id="focus-edit-panel">
       <div class="edit-row">
         <div class="edit-label">Question we're answering this week</div>
@@ -372,7 +440,7 @@ b, strong { font-weight: 600; }
   <section class="section" id="hypotheses">
     <div class="section-eyebrow">Hypotheses</div>
     <h2 class="section-title">What we're betting on</h2>
-    <p class="section-lead">Click the status badge on any card to move it. When something moves to Answered, capture the learning — that's the only thing that counts.</p>
+    <p class="section-lead">Click any card to edit it and change its status. Moving to Answered requires capturing the learning — that's the only thing that counts.</p>
     <div class="kanban" id="kanban-board"></div>
   </section>
 
@@ -423,32 +491,58 @@ b, strong { font-weight: 600; }
 
 </div>
 
-<!-- ── LEARNING MODAL ── -->
-<div class="modal-overlay" id="learning-modal">
-  <div class="modal">
-    <div class="modal-title">Capture the learning</div>
-    <div class="modal-rule">"We now know X, which means we will Y and will NOT Z." — Observations don't count. Only decisions count.</div>
-    <div class="modal-hyp" id="modal-hyp-label"></div>
-    <div class="modal-row">
-      <div class="modal-label">We now know…</div>
-      <textarea class="modal-input" id="ml-know" rows="2" placeholder="The specific finding"></textarea>
+<!-- ── PANEL OVERLAY ── -->
+<div class="panel-overlay" id="panel-overlay" onclick="closePanel()"></div>
+
+<!-- ── DETAIL PANEL ── -->
+<div class="detail-panel" id="detail-panel">
+  <div class="panel-head">
+    <div>
+      <div class="panel-id" id="panel-id">—</div>
+      <div class="panel-badges" id="panel-badges"></div>
     </div>
-    <div class="modal-row">
-      <div class="modal-label">…which means we will…</div>
-      <textarea class="modal-input" id="ml-will" rows="2" placeholder="What you'll build or do because of this"></textarea>
+    <button class="panel-close" onclick="closePanel()">Close</button>
+  </div>
+  <div class="panel-body">
+
+    <div style="font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin-bottom:8px;">Status</div>
+    <div class="status-pills" id="panel-status-pills"></div>
+
+    <div class="learning-fields" id="panel-learning-fields">
+      <div class="lf-rule">"We now know X, which means we will Y and will NOT Z." — Observations don't count.</div>
+      <div class="lf-label">We now know…</div>
+      <textarea class="lf-input" id="lf-know" rows="2" placeholder="The specific finding"></textarea>
+      <div class="lf-label">…which means we will…</div>
+      <textarea class="lf-input" id="lf-will" rows="2" placeholder="What you'll build or do"></textarea>
+      <div class="lf-label">…and will NOT…</div>
+      <textarea class="lf-input" id="lf-not" rows="2" placeholder="What you're ruling out"></textarea>
     </div>
-    <div class="modal-row">
-      <div class="modal-label">…and will NOT…</div>
-      <textarea class="modal-input" id="ml-not" rows="2" placeholder="What you're ruling out"></textarea>
+
+    <div class="panel-row" style="margin-top:1rem;">
+      <div class="panel-label">Hypothesis</div>
+      <textarea class="panel-input" id="panel-statement" rows="4" placeholder="The bet we're making"></textarea>
     </div>
-    <div class="modal-row">
-      <div class="modal-label">Source</div>
-      <input type="text" class="modal-input" id="ml-source" style="min-height:0" placeholder="Session date, experiment read, data pull…">
+    <div class="panel-row">
+      <div class="panel-label">To learn</div>
+      <textarea class="panel-input" id="panel-learn-goal" rows="2" placeholder="The specific question this test will answer"></textarea>
     </div>
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
-      <button class="btn-primary" onclick="saveLearning()">Save learning →</button>
+    <div class="panel-row">
+      <div class="panel-label">Would kill it</div>
+      <textarea class="panel-input" id="panel-kill" rows="2" placeholder="What evidence would invalidate this hypothesis"></textarea>
     </div>
+    <div class="panel-row">
+      <div class="panel-label">Next action</div>
+      <input type="text" class="panel-input" id="panel-next" style="min-height:0;resize:none;" placeholder="Specific next step">
+    </div>
+    <div class="panel-row">
+      <div class="panel-label">Source / experiment</div>
+      <input type="text" class="panel-input" id="panel-source" style="min-height:0;resize:none;" placeholder="Session date, A/B name, data pull…">
+    </div>
+
+  </div>
+  <div class="panel-foot">
+    <button class="btn-primary" onclick="savePanel()">Save</button>
+    <button class="btn-secondary" onclick="closePanel()">Cancel</button>
   </div>
 </div>
 
@@ -465,66 +559,75 @@ const DEFAULT_FOCUS = {
 
 const DEFAULT_HYPOTHESES = [
   {
-    id: 'H1.1', altitude: 'system', altitudeLabel: 'System', node: null, nodeColor: null,
+    id: 'SYS.1', altitude: 'system', altitudeLabel: 'System', node: null, nodeColor: null,
     statement: 'Two entry points, not one. Hosts who import from Airbnb and hosts who create from scratch have fundamentally different jobs at node 1. One entry point fails ~30% of users by design.',
-    status: 'concept',
-    nextAction: 'Moderated sessions — ask about first-listing mental model. No prototype needed.',
+    learnGoal: 'Do OTA and non-OTA hosts describe different jobs when they think about "getting started"? Do they have different mental models of what success looks like at import?',
+    killCondition: 'If non-OTA hosts actually want to connect Airbnb first — they plan to list there but haven\'t yet — then the single import-led track is still correct.',
+    status: 'concept', nextAction: 'Moderated sessions — ask about first-listing mental model. No prototype needed.',
     learning: null, source: null
   },
   {
-    id: 'H1.2', altitude: 'system', altitudeLabel: 'System', node: null, nodeColor: null,
+    id: 'SYS.2', altitude: 'system', altitudeLabel: 'System', node: null, nodeColor: null,
     statement: 'Delegation preference travels through the whole system. Detecting it early changes how every node behaves — not just one step. It\'s not a seniority question, it\'s a willingness-to-delegate question.',
-    status: 'assumed',
-    nextAction: 'Adversarial stress-test: find the strongest case this is wrong. What would the alternative model look like?',
+    learnGoal: 'Do hosts cluster meaningfully on a "configure it myself" vs "act on my behalf and tell me" axis? Is this preference stable across setup actions or too context-dependent to detect early?',
+    killCondition: 'If delegation preference is too context-dependent to detect early — hosts switch modes constantly — the adaptive layer isn\'t buildable.',
+    status: 'assumed', nextAction: 'Adversarial stress-test: build the strongest case this is wrong. What would the alternative model look like?',
     learning: null, source: null
   },
   {
-    id: 'H1.3', altitude: 'system', altitudeLabel: 'System', node: null, nodeColor: null,
+    id: 'SYS.3', altitude: 'system', altitudeLabel: 'System', node: null, nodeColor: null,
     statement: 'Trust stages gate each other. A host who doesn\'t feel safe won\'t engage with momentum signals. Surfacing stage 2 before stage 1 is resolved doesn\'t just fail — it damages trust.',
-    status: 'assumed',
-    nextAction: 'Behavioral data: find hosts who skipped Import and went to Core levers directly. Did they convert?',
+    learnGoal: 'When hosts skip a trust stage — e.g. bypass import confirmation and go straight to Core levers — do they convert at lower rates? Is the failure silent or visible?',
+    killCondition: 'If hosts engage with later-stage content before earlier stages are resolved — and it works — then the stages are parallel, not sequential.',
+    status: 'assumed', nextAction: 'Behavioral data: find hosts who skipped Import and went straight to Core levers. Did they convert?',
     learning: null, source: null
   },
   {
-    id: 'H2.1', altitude: 'concept', altitudeLabel: 'Node', node: 'Import', nodeColor: '#0F6E56',
+    id: 'NOD.1', altitude: 'node', altitudeLabel: 'Node', node: 'Import', nodeColor: '#0F6E56',
     statement: 'After importing, a host needs an explicit confirmation moment — not just landing on the calendar. "Your data is correct" must be stated, not assumed.',
-    status: 'concept',
-    nextAction: 'Concept test sprint 2: does a validation screen need to exist? 5 sessions.',
+    learnGoal: 'Do hosts pause to verify their imported data, or do they assume it\'s right and move on? What happens when data is wrong and there was no confirmation step?',
+    killCondition: 'If hosts don\'t pause to verify — if they trust the import and immediately move to levers — the confirmation screen adds friction with no benefit.',
+    status: 'concept', nextAction: 'Concept test sprint 2: does a validation screen need to exist? 5 sessions.',
     learning: null, source: null
   },
   {
-    id: 'H2.2', altitude: 'concept', altitudeLabel: 'Node', node: 'Core levers', nodeColor: '#534AB7',
+    id: 'NOD.2', altitude: 'node', altitudeLabel: 'Node', node: 'Core levers', nodeColor: '#534AB7',
     statement: 'Core levers must be surfaced as a mandatory flow, not discovered in product. 65% D1 inaction is already behavioral evidence that passive discovery fails.',
-    status: 'concept',
-    nextAction: 'Amplitude pull: how did D1-active hosts navigate to levers? Embed question in next 3 sessions.',
+    learnGoal: 'Do hosts who succeed at Core levers find them via discovery, or are they guided there? What\'s the navigation path of D1-active hosts vs D1-inactive hosts?',
+    killCondition: 'If hosts in sessions actively resist a mandatory flow AND discovery-path hosts eventually activate at similar rates — the inaction is patience, not a failure of discoverability.',
+    status: 'concept', nextAction: 'Amplitude pull: how did D1-active hosts navigate to levers? Embed question in next 3 sessions.',
     learning: null, source: null
   },
   {
-    id: 'H2.3', altitude: 'concept', altitudeLabel: 'Node', node: 'Core levers', nodeColor: '#534AB7',
+    id: 'NOD.3', altitude: 'node', altitudeLabel: 'Node', node: 'Core levers', nodeColor: '#534AB7',
     statement: 'The system must actively signal momentum — impressions, views, co-host activity — before a booking arrives. Without it, hosts disengage in the silence gap.',
-    status: 'assumed',
-    nextAction: 'CS churn recordings, D1–14 churners. Ask: what made you stop logging in?',
+    learnGoal: 'Do churned hosts (D1–14) cite "nothing happening" as a reason? Or do they churn for unrelated reasons — pricing, support issues, technical bugs?',
+    killCondition: 'If churn recordings show hosts were fine with silence and churned for other reasons, the momentum layer adds noise rather than value.',
+    status: 'assumed', nextAction: 'CS churn recordings, D1–14 churners. Ask: what made you stop logging in?',
     learning: null, source: null
   },
   {
-    id: 'H2.4', altitude: 'concept', altitudeLabel: 'Node', node: 'Outcome', nodeColor: '#854F0B',
+    id: 'NOD.4', altitude: 'node', altitudeLabel: 'Node', node: 'Outcome', nodeColor: '#854F0B',
     statement: 'When a booking arrives, Lodgify must make the causal link explicit. Without it, hosts credit Airbnb — and Lodgify becomes invisible middleware.',
-    status: 'assumed',
-    nextAction: 'Ask CS to flag 5 hosts with a first booking. Call them: "where did it come from?"',
+    learnGoal: 'When hosts get their first booking, do they spontaneously credit Lodgify, Airbnb, or neither? What language do they use when describing where the booking came from?',
+    killCondition: 'If hosts spontaneously credit Lodgify without a designed attribution moment, the outcome screen is polish — not architecture.',
+    status: 'assumed', nextAction: 'Ask CS to flag 5 hosts with a first booking. Call them: "where did it come from?"',
     learning: null, source: null
   },
   {
-    id: 'H3.1', altitude: 'form', altitudeLabel: 'Form', node: 'Import', nodeColor: '#0F6E56',
+    id: 'MCR.1', altitude: 'micro', altitudeLabel: 'Micro', node: 'Import', nodeColor: '#0F6E56',
     statement: 'Redesigned Airbnb connection page with trust copy reduces drop-off at the connection step. Primary metric: click-through to OAuth.',
-    status: 'testing',
-    nextAction: 'A/B live. Early read May 25.',
+    learnGoal: 'Does adding trust copy and social proof on the Airbnb connection page increase click-through to OAuth? What\'s the delta vs control?',
+    killCondition: null,
+    status: 'testing', nextAction: 'A/B live. Early read May 25.',
     learning: null, source: 'A/B live · early read May 25'
   },
   {
-    id: 'H3.2', altitude: 'form', altitudeLabel: 'Form', node: 'Core levers', nodeColor: '#534AB7',
+    id: 'MCR.2', altitude: 'micro', altitudeLabel: 'Micro', node: 'Core levers', nodeColor: '#534AB7',
     statement: 'Agentic onboarding (co-host acts first, host approves) reduces D1 inaction rate vs. current checklist. Override rate is the trust signal to watch.',
-    status: 'testing',
-    nextAction: '50/50 live split. Watch D1 action rate and override rate.',
+    learnGoal: 'Does an agentic model — where the system acts and the host approves — reduce D1 inaction rate? Does the override rate reveal something about the right level of autonomy to grant?',
+    killCondition: null,
+    status: 'testing', nextAction: '50/50 live split. Watch D1 action rate and override rate.',
     learning: null, source: '50/50 split · pending dev handoff'
   }
 ];
@@ -537,11 +640,11 @@ const DEFAULT_BLOCKERS = [
 // ─── STATUS CONFIG ────────────────────────────────────────────────────────────
 
 const STATUS = {
-  assumed:   { label: 'Assumed',       col: 'untested',  dot: '#b8b4ad', cls: 'c-assumed'   },
-  concept:   { label: 'Concept stage', col: 'untested',  dot: '#d4822a', cls: 'c-concept'   },
-  testing:   { label: 'Testing now',   col: 'testing',   dot: '#1a4a7a', cls: 'c-testing'   },
-  validated: { label: 'Answered',      col: 'answered',  dot: '#2d6a4f', cls: 'c-validated' },
-  deferred:  { label: 'Deferred',      col: 'deferred',  dot: '#d8d3ca', cls: 'c-deferred'  }
+  assumed:   { label: 'Assumed',       col: 'untested', dot: '#b8b4ad', cls: 'c-assumed'   },
+  concept:   { label: 'Concept stage', col: 'untested', dot: '#d4822a', cls: 'c-concept'   },
+  testing:   { label: 'Testing now',   col: 'testing',  dot: '#1a4a7a', cls: 'c-testing'   },
+  validated: { label: 'Answered',      col: 'answered', dot: '#2d6a4f', cls: 'c-validated' },
+  deferred:  { label: 'Deferred',      col: 'deferred', dot: '#d8d3ca', cls: 'c-deferred'  }
 };
 
 const COLS = [
@@ -554,19 +657,16 @@ const COLS = [
 // ─── STATE ────────────────────────────────────────────────────────────────────
 
 function loadState() {
-  try {
-    const raw = localStorage.getItem('acct-setup-v2');
-    if (raw) return JSON.parse(raw);
-  } catch(e) {}
+  try { const r = localStorage.getItem('acct-setup-v3'); if (r) return JSON.parse(r); } catch(e) {}
   return null;
 }
-function persist() { localStorage.setItem('acct-setup-v2', JSON.stringify(state)); }
+function persist() { localStorage.setItem('acct-setup-v3', JSON.stringify(state)); }
 
 const saved = loadState();
 const state = {
-  focus:       saved?.focus       || { ...DEFAULT_FOCUS },
-  hypotheses:  saved?.hypotheses  || DEFAULT_HYPOTHESES.map(h => ({ ...h })),
-  blockers:    saved?.blockers    || DEFAULT_BLOCKERS.map(b => ({ ...b }))
+  focus:      saved?.focus      || { ...DEFAULT_FOCUS },
+  hypotheses: saved?.hypotheses || DEFAULT_HYPOTHESES.map(h => ({ ...h })),
+  blockers:   saved?.blockers   || DEFAULT_BLOCKERS.map(b => ({ ...b }))
 };
 
 // ─── FOCUS ────────────────────────────────────────────────────────────────────
@@ -578,19 +678,17 @@ function renderFocus() {
   document.getElementById('focus-owner').textContent    = state.focus.owner;
   document.getElementById('focus-deadline').textContent = state.focus.deadline;
 }
-
 function toggleFocusEdit() {
-  const panel = document.getElementById('focus-edit-panel');
-  if (!panel.classList.contains('open')) {
+  const p = document.getElementById('focus-edit-panel');
+  if (!p.classList.contains('open')) {
     document.getElementById('ep-question').value = state.focus.question;
     document.getElementById('ep-why').value       = state.focus.why;
     document.getElementById('ep-action').value    = state.focus.action;
     document.getElementById('ep-owner').value     = state.focus.owner;
     document.getElementById('ep-deadline').value  = state.focus.deadline;
   }
-  panel.classList.toggle('open');
+  p.classList.toggle('open');
 }
-
 function saveFocus() {
   const q = document.getElementById('ep-question').value.trim();
   if (!q) return;
@@ -601,8 +699,7 @@ function saveFocus() {
     owner:    document.getElementById('ep-owner').value.trim(),
     deadline: document.getElementById('ep-deadline').value.trim()
   };
-  persist();
-  renderFocus();
+  persist(); renderFocus();
   document.getElementById('focus-edit-panel').classList.remove('open');
 }
 
@@ -611,7 +708,6 @@ function saveFocus() {
 function renderKanban() {
   const board = document.getElementById('kanban-board');
   board.innerHTML = '';
-
   COLS.forEach(col => {
     const cards = state.hypotheses.filter(h => STATUS[h.status].col === col.id);
     const colEl = document.createElement('div');
@@ -624,7 +720,6 @@ function renderKanban() {
       <div class="kanban-body" id="kb-${col.id}"></div>
     `;
     board.appendChild(colEl);
-
     const body = colEl.querySelector(`#kb-${col.id}`);
     if (cards.length === 0) {
       body.innerHTML = '<div class="kanban-empty">—</div>';
@@ -641,30 +736,28 @@ function buildCard(h) {
   div.dataset.id = h.id;
 
   const nodeTag = h.node
-    ? `<span class="node-tag" style="color:${h.nodeColor};background:${h.nodeColor}1a">${h.node}</span>`
-    : '';
+    ? `<span class="node-tag" style="color:${h.nodeColor};background:${h.nodeColor}1a">${h.node}</span>` : '';
+  const srcTag = (h.source && h.status === 'testing')
+    ? `<span class="hyp-source">${h.source}</span>` : '';
 
-  const sourceBadge = (h.source && h.status === 'testing')
-    ? `<span class="hyp-source">${h.source}</span>`
-    : '';
-
-  const nextHtml = (h.status !== 'validated' && h.nextAction)
-    ? `<div class="hyp-next-action">${h.nextAction}</div>`
-    : '';
-
-  let learningHtml = '';
-  if (h.learning && h.status === 'validated') {
-    learningHtml = `
-      <div class="hyp-learning">
+  let learnSection = '';
+  if (h.status === 'validated' && h.learning?.know) {
+    learnSection = `
+      <div class="hyp-learning-card">
         We now know <strong>${h.learning.know}</strong>, which means we will <strong>${h.learning.will}</strong> and will NOT ${h.learning.not}.
         ${h.source ? `<div class="hyp-learning-source">${h.source}</div>` : ''}
       </div>`;
+  } else if (h.learnGoal) {
+    learnSection = `
+      <div class="hyp-learn-label">To learn</div>
+      <div class="hyp-learn-goal">${h.learnGoal}</div>`;
   }
 
+  // Status badge — stopPropagation so card click doesn't also fire
   const statusOptions = Object.entries(STATUS)
     .filter(([k]) => k !== h.status)
     .map(([k, v]) => `
-      <div class="status-option" onclick="changeStatus(event,'${h.id}','${k}')">
+      <div class="status-option" onclick="quickStatus(event,'${h.id}','${k}')">
         <span class="status-dot" style="background:${v.dot}"></span>${v.label}
       </div>`).join('');
 
@@ -677,15 +770,21 @@ function buildCard(h) {
       </div>
     </div>
     <div class="hyp-statement">${h.statement}</div>
-    <div class="hyp-footer">${nodeTag}${sourceBadge}</div>
-    ${nextHtml}
-    ${learningHtml}
+    ${learnSection}
+    <div class="hyp-card-foot">${nodeTag}${srcTag}</div>
     <div class="status-popover" id="pop-${h.id}">${statusOptions}</div>
   `;
+
+  // Click card body → open detail panel
+  div.addEventListener('click', (e) => {
+    if (e.target.closest('.status-badge') || e.target.closest('.status-popover')) return;
+    openPanel(h.id);
+  });
+
   return div;
 }
 
-// ─── POPOVER ──────────────────────────────────────────────────────────────────
+// ─── STATUS POPOVER (badge quick-change) ─────────────────────────────────────
 
 let activePopover = null;
 
@@ -697,86 +796,123 @@ function togglePopover(e, id) {
   activePopover = pop.classList.contains('open') ? pop : null;
 }
 
+function quickStatus(e, id, newStatus) {
+  e.stopPropagation();
+  if (activePopover) { activePopover.classList.remove('open'); activePopover = null; }
+  if (newStatus === 'validated') {
+    openPanel(id, 'validated');
+  } else {
+    const h = state.hypotheses.find(x => x.id === id);
+    if (h) { h.status = newStatus; persist(); renderKanban(); }
+  }
+}
+
 document.addEventListener('click', () => {
   if (activePopover) { activePopover.classList.remove('open'); activePopover = null; }
 });
 
-// ─── STATUS CHANGE ────────────────────────────────────────────────────────────
+// ─── DETAIL PANEL ─────────────────────────────────────────────────────────────
 
-let pendingChange = null;
+let panelId = null;
+let panelStatus = null;
 
-function changeStatus(e, id, newStatus) {
-  e.stopPropagation();
-  if (activePopover) { activePopover.classList.remove('open'); activePopover = null; }
-
-  if (newStatus === 'validated') {
-    pendingChange = { id, newStatus };
-    openModal(id);
-  } else {
-    applyStatus(id, newStatus, null, null);
-  }
-}
-
-function applyStatus(id, status, learning, source) {
+function openPanel(id, forceStatus) {
   const h = state.hypotheses.find(x => x.id === id);
   if (!h) return;
-  h.status = status;
-  if (learning) h.learning = learning;
-  if (source !== null) h.source = source;
+  panelId = id;
+  panelStatus = forceStatus || h.status;
+
+  document.getElementById('panel-id').textContent = h.id;
+  const badges = document.getElementById('panel-badges');
+  badges.innerHTML = `<span class="alt-badge alt-${h.altitude}">${h.altitudeLabel}</span>`;
+  if (h.node) badges.innerHTML += ` <span class="node-tag" style="color:${h.nodeColor};background:${h.nodeColor}1a;margin-left:4px">${h.node}</span>`;
+
+  document.getElementById('panel-statement').value  = h.statement  || '';
+  document.getElementById('panel-learn-goal').value = h.learnGoal  || '';
+  document.getElementById('panel-kill').value       = h.killCondition || '';
+  document.getElementById('panel-next').value       = h.nextAction || '';
+  document.getElementById('panel-source').value     = h.source     || '';
+
+  const learning = h.learning || {};
+  document.getElementById('lf-know').value = learning.know || '';
+  document.getElementById('lf-will').value = learning.will || '';
+  document.getElementById('lf-not').value  = learning.not  || '';
+
+  renderStatusPills(panelStatus);
+  toggleLearningFields(panelStatus === 'validated');
+
+  document.getElementById('panel-overlay').classList.add('open');
+  document.getElementById('detail-panel').classList.add('open');
+
+  // highlight card
+  document.querySelectorAll('.hyp-card').forEach(c => c.classList.remove('selected'));
+  const card = document.querySelector(`.hyp-card[data-id="${id}"]`);
+  if (card) card.classList.add('selected');
+}
+
+function closePanel() {
+  panelId = null;
+  document.getElementById('panel-overlay').classList.remove('open');
+  document.getElementById('detail-panel').classList.remove('open');
+  document.querySelectorAll('.hyp-card').forEach(c => c.classList.remove('selected'));
+}
+
+function renderStatusPills(active) {
+  const container = document.getElementById('panel-status-pills');
+  container.innerHTML = '';
+  Object.entries(STATUS).forEach(([k, v]) => {
+    const btn = document.createElement('button');
+    btn.className = `status-pill${active === k ? ' active-' + k : ''}`;
+    btn.textContent = v.label;
+    btn.onclick = () => {
+      panelStatus = k;
+      renderStatusPills(k);
+      toggleLearningFields(k === 'validated');
+    };
+    container.appendChild(btn);
+  });
+}
+
+function toggleLearningFields(show) {
+  document.getElementById('panel-learning-fields').classList.toggle('visible', show);
+}
+
+function savePanel() {
+  if (!panelId) return;
+  const h = state.hypotheses.find(x => x.id === panelId);
+  if (!h) return;
+
+  h.statement     = document.getElementById('panel-statement').value.trim();
+  h.learnGoal     = document.getElementById('panel-learn-goal').value.trim();
+  h.killCondition = document.getElementById('panel-kill').value.trim();
+  h.nextAction    = document.getElementById('panel-next').value.trim();
+  h.source        = document.getElementById('panel-source').value.trim() || null;
+  h.status        = panelStatus;
+
+  if (panelStatus === 'validated') {
+    h.learning = {
+      know: document.getElementById('lf-know').value.trim(),
+      will: document.getElementById('lf-will').value.trim(),
+      not:  document.getElementById('lf-not').value.trim()
+    };
+  }
+
   persist();
+  closePanel();
   renderKanban();
 }
-
-// ─── MODAL ────────────────────────────────────────────────────────────────────
-
-function openModal(id) {
-  const h = state.hypotheses.find(x => x.id === id);
-  document.getElementById('modal-hyp-label').textContent = `${h.id} — ${h.statement.slice(0, 90)}…`;
-  document.getElementById('ml-know').value   = h.learning?.know || '';
-  document.getElementById('ml-will').value   = h.learning?.will || '';
-  document.getElementById('ml-not').value    = h.learning?.not  || '';
-  document.getElementById('ml-source').value = h.source || '';
-  document.getElementById('learning-modal').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('learning-modal').classList.remove('open');
-  pendingChange = null;
-}
-
-function saveLearning() {
-  if (!pendingChange) return;
-  const know = document.getElementById('ml-know').value.trim();
-  if (!know) { document.getElementById('ml-know').focus(); return; }
-
-  applyStatus(pendingChange.id, pendingChange.newStatus, {
-    know,
-    will: document.getElementById('ml-will').value.trim(),
-    not:  document.getElementById('ml-not').value.trim()
-  }, document.getElementById('ml-source').value.trim() || null);
-
-  closeModal();
-}
-
-// close modal on overlay click
-document.getElementById('learning-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
 
 // ─── BLOCKERS ─────────────────────────────────────────────────────────────────
 
 function renderBlockers() {
   const list = document.getElementById('blockers-list');
   list.innerHTML = '';
-
   const active   = state.blockers.filter(b => !b.resolved);
   const resolved = state.blockers.filter(b =>  b.resolved);
-
   if (active.length === 0 && resolved.length === 0) {
     list.innerHTML = '<p style="font-size:13px;color:var(--green);">No open blockers.</p>';
     return;
   }
-
   [...active, ...resolved].forEach(b => {
     const div = document.createElement('div');
     div.className = `blocker${b.resolved ? ' resolved' : ''}`;
@@ -793,7 +929,6 @@ function renderBlockers() {
     list.appendChild(div);
   });
 }
-
 function toggleBlocker(id) {
   const b = state.blockers.find(x => x.id === id);
   if (b) { b.resolved = !b.resolved; persist(); renderBlockers(); }
@@ -801,7 +936,7 @@ function toggleBlocker(id) {
 
 // ─── NAV HIGHLIGHT ────────────────────────────────────────────────────────────
 
-const navObserver = new IntersectionObserver(entries => {
+const navObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
       const id = e.target.id;
@@ -811,9 +946,9 @@ const navObserver = new IntersectionObserver(entries => {
     }
   });
 }, { threshold: 0.3 });
-
-document.querySelectorAll('[id]').forEach(el => {
-  if (['focus','system','hypotheses','blockers','data'].includes(el.id)) navObserver.observe(el);
+['focus','system','hypotheses','blockers','data'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) navObs.observe(el);
 });
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
